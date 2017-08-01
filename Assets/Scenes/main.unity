@@ -1420,7 +1420,7 @@ Prefab:
         type: 2}
       propertyPath: storedArmyButton
       value: 
-      objectReference: {fileID: 1657628236482176, guid: a14c55b979c076a48b2c4346457f97ae,
+      objectReference: {fileID: 1302507975096748, guid: cbc2ae7cf83c5b340a1b3157f6448041,
         type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d4d2cc302bd28db42945ca619df3eff6, type: 2}
@@ -2151,7 +2151,7 @@ MonoBehaviour:
   addUnitSlot: {fileID: 1021263122624688, guid: e8e58bef86d250341bb409ea38d0ea4f,
     type: 2}
   armyUnit: {fileID: 1153848791603064, guid: edaceb1da729cbb409b08de9e08ffc09, type: 2}
-  storedArmyButton: {fileID: 1657628236482176, guid: a14c55b979c076a48b2c4346457f97ae,
+  storedArmyButton: {fileID: 1302507975096748, guid: cbc2ae7cf83c5b340a1b3157f6448041,
     type: 2}
   addListTiles: []
 --- !u!4 &1467685800
@@ -2533,7 +2533,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 27
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
