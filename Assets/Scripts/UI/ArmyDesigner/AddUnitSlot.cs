@@ -9,7 +9,7 @@ public class AddUnitSlot : MonoBehaviour, IUnitSlot, IDropHandler {
 
 	public int TileRow { get; private set; }
 
-	public void setRow(int row)
+	public void SetRow(int row)
 	{
 		TileRow = row;
 	}
