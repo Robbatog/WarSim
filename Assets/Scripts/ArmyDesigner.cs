@@ -242,7 +242,10 @@ public class ArmyDesigner : MonoBehaviour {
 		var armyTileRect = armyTileMap.GetComponent<RectTransform>();
 
 		GameObject newButton = Instantiate(storedArmyButton, storedArmyList);
-		newButton.transform.Find("Text").GetComponent<Text>().text = armyName;
+		newButton.transform.Find("TextMsh").GetComponent<TMPro.TextMeshProUGUI>().text = armyName;
+
+		string callbackString = armyName; // avoid capturing the wrong string (armyName) in lambda closure - add a local to capture instead
+		newButton.GetComponent<Button>().onClick.AddListener(() => { LoadArmy(callbackString); });
 
 		// set sprite
 		Vector3[] corners = new Vector3[4];
@@ -253,7 +256,6 @@ public class ArmyDesigner : MonoBehaviour {
 		var startX = corners[0].x;
 		var startY = corners[0].y;
 
-		//var rect = RectTransformUtility.PixelAdjustRect(armyTileRect, canvas);
 		var rect = new Rect(startX, startY, width, height);
 		var tex = new Texture2D(System.Convert.ToInt32(width), System.Convert.ToInt32(height), TextureFormat.RGB24, false);
 		tex.ReadPixels(rect, 0, 0);
@@ -263,9 +265,6 @@ public class ArmyDesigner : MonoBehaviour {
 		newButton.transform.Find("ArmyScreenshot").GetComponent<Image>().sprite = s;
 		newButton.transform.Find("ArmyScreenshot").GetComponent<Image>().type = Image.Type.Simple;
 		newButton.transform.Find("ArmyScreenshot").GetComponent<Image>().preserveAspect = true;
-
-		string callbackString = armyName; // avoid capturing the wrong string (armyName) in lambda closure - add a local to capture instead
-		newButton.GetComponent<Button>().onClick.AddListener(() => { LoadArmy(callbackString); });
 
 		//var bytes = tex.EncodeToPNG();
 		//string fileName = armyName + ".png";
