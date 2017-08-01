@@ -25,6 +25,7 @@ public class ArmyDesigner : MonoBehaviour {
 	public Unit[] addListTileUnits;
 	public GameObject[] addListTiles;
 	Dictionary<string, ArmySave> storedArmies;
+	Dictionary<string, GameObject> storedArmyButtons;
 
 	private void Start()
 	{
@@ -45,6 +46,7 @@ public class ArmyDesigner : MonoBehaviour {
 		tileUnits = new Unit[rowAmount, columnAmount];
 		tiles = new GameObject[rowAmount, columnAmount];
 		storedArmies = new Dictionary<string, ArmySave>();
+		storedArmyButtons = new Dictionary<string, GameObject>();
 
 		for (int row = 0; row < rowAmount; row++)
 		{
@@ -189,6 +191,27 @@ public class ArmyDesigner : MonoBehaviour {
 		Debug.Log("Army loaded");
 	}
 
+	public void DeleteArmy(string armyName)
+	{
+		ArmySave army = null;
+		if (!storedArmies.TryGetValue(armyName, out army))
+		{
+			Debug.Log("DeleteArmy: Could not find army with name \"" + armyName + "\"");
+		}
+
+		GameObject armyButton = null;
+		if (!storedArmyButtons.TryGetValue(armyName, out armyButton))
+		{
+			Debug.Log("DeleteArmy: Could not find army with name \"" + armyName + "\"");
+		}
+
+		storedArmies.Remove(armyName);
+		storedArmyButtons.Remove(armyName);
+		GameObject.Destroy(armyButton);
+
+		Debug.Log("Army deleted");
+	}
+
 	public void SaveArmy(GameObject nameFieldObj)
 	{
 		InputField nameField = nameFieldObj.GetComponent<InputField>();
@@ -242,10 +265,14 @@ public class ArmyDesigner : MonoBehaviour {
 		var armyTileRect = armyTileMap.GetComponent<RectTransform>();
 
 		GameObject newButton = Instantiate(storedArmyButton, storedArmyList);
+		storedArmyButtons.Add(armyName, newButton);
+
 		newButton.transform.Find("TextMsh").GetComponent<TMPro.TextMeshProUGUI>().text = armyName;
 
 		string callbackString = armyName; // avoid capturing the wrong string (armyName) in lambda closure - add a local to capture instead
 		newButton.GetComponent<Button>().onClick.AddListener(() => { LoadArmy(callbackString); });
+
+		newButton.transform.Find("DeleteButton").GetComponent<Button>().onClick.AddListener(() => { DeleteArmy(callbackString); });
 
 		// set sprite
 		Vector3[] corners = new Vector3[4];
