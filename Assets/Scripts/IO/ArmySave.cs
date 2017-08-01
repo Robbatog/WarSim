@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class ArmySave
 {
+	public string armyName;
 	public List<string> unitNames;
 
 	public ArmySave()

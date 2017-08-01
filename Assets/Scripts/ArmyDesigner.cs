@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ArmyDesigner : MonoBehaviour {
-
+	
+	// references to other objects
 	GameObject armyDesignerPanel;
 	GameObject armyTileMap;
 	GameObject armyAddUnitList;
@@ -14,14 +15,16 @@ public class ArmyDesigner : MonoBehaviour {
 	public GameObject armySlot;
 	public GameObject addUnitSlot;
 	public GameObject armyUnit;
+	public GameObject storedArmyButton;
 
+	// settings and members for this object
 	int columnAmount;
 	int rowAmount;
 	public Unit[,] tileUnits;
 	public GameObject[,] tiles;
-
 	public Unit[] addListTileUnits;
 	public GameObject[] addListTiles;
+	Dictionary<string, ArmySave> storedArmies;
 
 	private void Start()
 	{
@@ -41,6 +44,7 @@ public class ArmyDesigner : MonoBehaviour {
 		rowAmount = 5;
 		tileUnits = new Unit[rowAmount, columnAmount];
 		tiles = new GameObject[rowAmount, columnAmount];
+		storedArmies = new Dictionary<string, ArmySave>();
 
 		for (int row = 0; row < rowAmount; row++)
 		{
@@ -59,7 +63,7 @@ public class ArmyDesigner : MonoBehaviour {
 		for (int row = 0; row < unitBlueprints.Length; row++)
 		{
 			addListTiles[row] = Instantiate(addUnitSlot);
-			addListTiles[row].GetComponent<AddUnitSlot>().setRow(row);
+			addListTiles[row].GetComponent<AddUnitSlot>().SetRow(row);
 			addListTiles[row].transform.SetParent(armyAddUnitList.transform, false);
 
 			AddUnitToAddList(row, row);
@@ -153,6 +157,7 @@ public class ArmyDesigner : MonoBehaviour {
 			return;
 		}
 
+		ClearArmy();
 		for (int row = 0; row < rowAmount; row++)
 		{
 			for (int col = 0; col < columnAmount; col++)
@@ -160,5 +165,113 @@ public class ArmyDesigner : MonoBehaviour {
 				AddUnit(UnitNameToId(unitNames[row, col]), row, col);
 			}
 		}
+	}
+
+	public void LoadArmy(string armyName)
+	{
+		ArmySave army = null;
+		if(!storedArmies.TryGetValue(armyName, out army))
+		{
+			Debug.Log("LoadArmy: Could not find army with name \"" + armyName + "\"");
+		}
+
+		string[,] unitNames = new string[tileUnits.GetLength(0), tileUnits.GetLength(1)];
+		var e = army.unitNames.GetEnumerator();
+		for (int i = 0; i < tileUnits.GetLength(0); i++)
+		{
+			for (int j = 0; j < tileUnits.GetLength(1); j++)
+			{
+				e.MoveNext();
+				unitNames[i, j] = e.Current;
+			}
+		}
+		LoadArmy(unitNames);
+		Debug.Log("Army loaded");
+	}
+
+	public void SaveArmy(GameObject nameFieldObj)
+	{
+		InputField nameField = nameFieldObj.GetComponent<InputField>();
+
+		if (nameField == null || nameField.text == "")
+		{
+			return;
+		}
+
+		if (storedArmies.ContainsKey(nameField.text))
+		{
+			Debug.Log("Army \"" + nameField.text + "\" already exists");
+			return;
+		}
+
+		ArmySave newArmy = new ArmySave()
+		{
+			armyName = nameField.text
+		};
+		for (int i = 0; i < tileUnits.GetLength(0); i++)
+		{
+			for (int j = 0; j < tileUnits.GetLength(1); j++)
+			{
+				if (tileUnits[i, j] != null)
+				{
+					newArmy.unitNames.Add(tileUnits[i, j].name);
+				}
+				else
+				{
+					newArmy.unitNames.Add("");
+				}
+			}
+		}
+		//string dataAsJson = JsonUtility.ToJson(newArmy);
+		//File.WriteAllText(filePath, dataAsJson);
+
+		storedArmies.Add(newArmy.armyName, newArmy);
+
+		// make stored army button
+		StartCoroutine(MakeStoredArmyButton(nameField.text));
+
+		Debug.Log("Army \"" + nameField.text + "\" saved");
+	}
+
+	public IEnumerator MakeStoredArmyButton(string armyName)
+	{
+		yield return new WaitForEndOfFrame(); // it must be a coroutine 
+
+		var armyTileMap = armyDesignerPanel.transform.Find("ArmyTileMap");
+		var storedArmyList = armyDesignerPanel.transform.Find("StoredArmyScrollView").Find("Viewport").Find("StoredArmyList");
+		var armyTileRect = armyTileMap.GetComponent<RectTransform>();
+
+		GameObject newButton = Instantiate(storedArmyButton, storedArmyList);
+		newButton.transform.Find("Text").GetComponent<Text>().text = armyName;
+
+		// set sprite
+		Vector3[] corners = new Vector3[4];
+		armyTileRect.GetWorldCorners(corners);
+
+		var width = corners[2].x - corners[0].x;
+		var height = corners[2].y - corners[0].y;
+		var startX = corners[0].x;
+		var startY = corners[0].y;
+
+		//var rect = RectTransformUtility.PixelAdjustRect(armyTileRect, canvas);
+		var rect = new Rect(startX, startY, width, height);
+		var tex = new Texture2D(System.Convert.ToInt32(width), System.Convert.ToInt32(height), TextureFormat.RGB24, false);
+		tex.ReadPixels(rect, 0, 0);
+		tex.Apply();
+
+		Sprite s = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+		newButton.transform.Find("ArmyScreenshot").GetComponent<Image>().sprite = s;
+		newButton.transform.Find("ArmyScreenshot").GetComponent<Image>().type = Image.Type.Simple;
+		newButton.transform.Find("ArmyScreenshot").GetComponent<Image>().preserveAspect = true;
+
+		string callbackString = armyName; // avoid capturing the wrong string (armyName) in lambda closure - add a local to capture instead
+		newButton.GetComponent<Button>().onClick.AddListener(() => { LoadArmy(callbackString); });
+
+		//var bytes = tex.EncodeToPNG();
+		//string fileName = armyName + ".png";
+		//string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
+		//File.WriteAllBytes(filePath, bytes);
+
+		Debug.Log("Saved army's button added");
 	}
 }

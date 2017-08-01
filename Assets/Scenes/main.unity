@@ -1416,9 +1416,14 @@ Prefab:
       value: 
       objectReference: {fileID: 1021263122624688, guid: e8e58bef86d250341bb409ea38d0ea4f,
         type: 2}
+    - target: {fileID: 114432451214595462, guid: d4d2cc302bd28db42945ca619df3eff6,
+        type: 2}
+      propertyPath: storedArmyButton
+      value: 
+      objectReference: {fileID: 1657628236482176, guid: a14c55b979c076a48b2c4346457f97ae,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d4d2cc302bd28db42945ca619df3eff6, type: 2}
-  m_RootGameObject: {fileID: 1467685798}
   m_IsPrefabParent: 0
 --- !u!1 &857414977
 GameObject:
@@ -1910,8 +1915,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f22e4446c6aba94499d979c627fd364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  storedArmyButton: {fileID: 1657628236482176, guid: a14c55b979c076a48b2c4346457f97ae,
-    type: 2}
 --- !u!4 &1378195426
 Transform:
   m_ObjectHideFlags: 0
@@ -2001,8 +2004,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1378195425}
-        m_MethodName: SaveArmyData
+      - m_Target: {fileID: 1467685799}
+        m_MethodName: SaveArmy
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 27906515}
@@ -2148,6 +2151,8 @@ MonoBehaviour:
   addUnitSlot: {fileID: 1021263122624688, guid: e8e58bef86d250341bb409ea38d0ea4f,
     type: 2}
   armyUnit: {fileID: 1153848791603064, guid: edaceb1da729cbb409b08de9e08ffc09, type: 2}
+  storedArmyButton: {fileID: 1657628236482176, guid: a14c55b979c076a48b2c4346457f97ae,
+    type: 2}
   addListTiles: []
 --- !u!4 &1467685800
 Transform:

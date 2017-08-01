@@ -12,9 +12,6 @@ public class DataController : MonoBehaviour {
 	private ArmyDesigner armyDesigner;
 	private GameObject armyDesignerPanel;
 
-	// Prefab for button when new stored army added
-	public GameObject storedArmyButton;
-
 	// Use this for initialization
 	void Start () {
 		DontDestroyOnLoad(gameObject);
@@ -44,102 +41,85 @@ public class DataController : MonoBehaviour {
 		}
 	}
 
-	public void SaveArmyData(GameObject nameFieldObj)
-	{
-		InputField nameField = nameFieldObj.GetComponent<InputField>();
+	//public void SaveArmyData(GameObject nameFieldObj)
+	//{
+	//	InputField nameField = nameFieldObj.GetComponent<InputField>();
 
-		if (nameField == null || nameField.text == "")
-		{
-			return;
-		}
+	//	if (nameField == null || nameField.text == "")
+	//	{
+	//		return;
+	//	}
 
-		string fileName = nameField.text + ".army";
-		string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
+	//	string fileName = nameField.text + ".army";
+	//	string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
 
-		ArmySave newArmy = new ArmySave();
-		for (int i = 0; i < armyDesigner.tileUnits.GetLength(0); i++)
-		{
-			for (int j = 0; j < armyDesigner.tileUnits.GetLength(1); j++)
-			{
-				if (armyDesigner.tileUnits[i, j] != null)
-				{
-					newArmy.unitNames.Add(armyDesigner.tileUnits[i, j].name);
-				}
-				else
-				{
-					newArmy.unitNames.Add("");
-				}
-			}
-		}
-		string dataAsJson = JsonUtility.ToJson(newArmy);
+	//	ArmySave newArmy = new ArmySave()
+	//	{
+	//		armyName = nameField.text
+	//	};
+	//	for (int i = 0; i < armyDesigner.tileUnits.GetLength(0); i++)
+	//	{
+	//		for (int j = 0; j < armyDesigner.tileUnits.GetLength(1); j++)
+	//		{
+	//			if (armyDesigner.tileUnits[i, j] != null)
+	//			{
+	//				newArmy.unitNames.Add(armyDesigner.tileUnits[i, j].name);
+	//			}
+	//			else
+	//			{
+	//				newArmy.unitNames.Add("");
+	//			}
+	//		}
+	//	}
+	//	string dataAsJson = JsonUtility.ToJson(newArmy);
 
-		File.WriteAllText(filePath, dataAsJson);
+	//	File.WriteAllText(filePath, dataAsJson);
 
-		// make stored army button
-		StartCoroutine(MakeStoredArmyButton(nameField.text));
-		//{
-		//	var armyTileMap = armyDesignerPanel.transform.Find("ArmyTileMap");
-		//	var storedArmyList = armyDesignerPanel.transform.Find("StoredArmyList");
-		//	var armyTileRect = armyTileMap.GetComponent<RectTransform>();
+	//	// make stored army button
+	//	StartCoroutine(MakeStoredArmyButton(nameField.text));
 
-		//	GameObject newButton = Instantiate(storedArmyButton, storedArmyList);
-		//	newButton.transform.Find("Text").GetComponent<Text>().text = nameField.text;
+	//	Debug.Log("Army saved");
+	//}
 
-		//	// set sprite
-		//	var width = armyTileRect.rect.width;
-		//	var height = armyTileRect.rect.height;
-		//	var startX = armyTileRect.rect.x;
-		//	var startY = armyTileRect.rect.y;
-		//	var tex = new Texture2D(System.Convert.ToInt32(width), System.Convert.ToInt32(height), TextureFormat.RGB24, false);
-		//	tex.ReadPixels(armyTileRect.rect, 0, 0);
-		//	tex.Apply();
+	//public IEnumerator MakeStoredArmyButton(string armyName)
+	//{
+	//	yield return new WaitForEndOfFrame(); // it must be a coroutine 
 
-		//	var s = newButton.transform.Find("ArmyScreenshot").GetComponent<Image>().sprite;
-		//	s = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f));
-		//}
+	//	var armyTileMap = armyDesignerPanel.transform.Find("ArmyTileMap");
+	//	var storedArmyList = armyDesignerPanel.transform.Find("StoredArmyScrollView").Find("Viewport").Find("StoredArmyList");
+	//	var armyTileRect = armyTileMap.GetComponent<RectTransform>();
 
-		Debug.Log("Army saved");
-	}
+	//	GameObject newButton = Instantiate(storedArmyButton, storedArmyList);
+	//	newButton.transform.Find("Text").GetComponent<Text>().text = armyName;
 
-	public IEnumerator MakeStoredArmyButton(string armyName)
-	{
-		yield return new WaitForEndOfFrame(); // it must be a coroutine 
+	//	// set sprite
+	//	Vector3[] corners = new Vector3[4];
+	//	armyTileRect.GetWorldCorners(corners);
 
-		var armyTileMap = armyDesignerPanel.transform.Find("ArmyTileMap");
-		var storedArmyList = armyDesignerPanel.transform.Find("StoredArmyScrollView").Find("Viewport").Find("StoredArmyList");
-		var armyTileRect = armyTileMap.GetComponent<RectTransform>();
+	//	var width = corners[2].x - corners[0].x;
+	//	var height = corners[2].y - corners[0].y;
+	//	var startX = corners[0].x;
+	//	var startY = corners[0].y;
 
-		GameObject newButton = Instantiate(storedArmyButton, storedArmyList);
-		newButton.transform.Find("Text").GetComponent<Text>().text = armyName;
+	//	//var rect = RectTransformUtility.PixelAdjustRect(armyTileRect, canvas);
+	//	var rect = new Rect(startX, startY, width, height);
+	//	var tex = new Texture2D(System.Convert.ToInt32(width), System.Convert.ToInt32(height), TextureFormat.RGB24, false);
+	//	tex.ReadPixels(rect, 0, 0);
+	//	tex.Apply();
 
-		// set sprite
-		Vector3[] corners = new Vector3[4];
-		armyTileRect.GetWorldCorners(corners);
+	//	Sprite s = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f));
+	//	newButton.transform.Find("ArmyScreenshot").GetComponent<Image>().sprite = s;
+	//	newButton.transform.Find("ArmyScreenshot").GetComponent<Image>().type = Image.Type.Simple;
+	//	newButton.transform.Find("ArmyScreenshot").GetComponent<Image>().preserveAspect = true;
 
-		var width = corners[2].x - corners[0].x;
-		var height = corners[2].y - corners[0].y;
-		var startX = corners[0].x;
-		var startY = corners[0].y;
+	//	var bytes = tex.EncodeToPNG();
 
-		//var rect = RectTransformUtility.PixelAdjustRect(armyTileRect, canvas);
-		var rect = new Rect(startX, startY, width, height);
-		var tex = new Texture2D(System.Convert.ToInt32(width), System.Convert.ToInt32(height), TextureFormat.RGB24, false);
-		tex.ReadPixels(rect, 0, 0);
-		tex.Apply();
+	//	string fileName = armyName + ".png";
+	//	string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
+	//	File.WriteAllBytes(filePath, bytes);
 
-		Sprite s = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f));
-		newButton.transform.Find("ArmyScreenshot").GetComponent<Image>().sprite = s;
-		newButton.transform.Find("ArmyScreenshot").GetComponent<Image>().type = Image.Type.Simple;
-		newButton.transform.Find("ArmyScreenshot").GetComponent<Image>().preserveAspect = true;
-
-		var bytes = tex.EncodeToPNG();
-
-		string fileName = armyName + ".png";
-		string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
-		File.WriteAllBytes(filePath, bytes);
-
-		Debug.Log("Saved army's button added");
-	}
+	//	Debug.Log("Saved army's button added");
+	//}
 
 	public void LoadArmyData(GameObject nameFieldObj)
 	{
