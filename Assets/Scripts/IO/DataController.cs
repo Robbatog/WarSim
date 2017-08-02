@@ -9,17 +9,17 @@ public class DataController : MonoBehaviour {
 	private UnitBlueprint[] unitBlueprints;
 	private string gameDataFileName = "data.json";
 
-	private ArmyDesigner armyDesigner;
-	private GameObject armyDesignerPanel;
+	//private ArmyDesigner armyDesigner;
+	//private GameObject armyDesignerPanel;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		DontDestroyOnLoad(gameObject);
 
 		LoadGameData();
 
-		armyDesigner = GameObject.Find("ArmyDesigner").GetComponent<ArmyDesigner>();
-		armyDesignerPanel = GameObject.Find("ArmyDesignerPanel");
+		//armyDesigner = GameObject.Find("ArmyDesigner").GetComponent<ArmyDesigner>();
+		//armyDesignerPanel = GameObject.Find("ArmyDesignerPanel");
 		// Set initial scene here
 		//initScene();
 	}
@@ -121,43 +121,43 @@ public class DataController : MonoBehaviour {
 	//	Debug.Log("Saved army's button added");
 	//}
 
-	public void LoadArmyData(GameObject nameFieldObj)
-	{
-		InputField nameField = nameFieldObj.GetComponent<InputField>();
+	//public void LoadArmyData(GameObject nameFieldObj)
+	//{
+	//	InputField nameField = nameFieldObj.GetComponent<InputField>();
 
-		if (nameField == null || nameField.text == "")
-		{
-			return;
-		}
+	//	if (nameField == null || nameField.text == "")
+	//	{
+	//		return;
+	//	}
 
-		string fileName = nameField.text + ".army";
-		string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
+	//	string fileName = nameField.text + ".army";
+	//	string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
 
-		ArmySave newArmy;
-		if (File.Exists(filePath))
-		{
-			string dataAsJson = File.ReadAllText(filePath);
+	//	ArmySave newArmy;
+	//	if (File.Exists(filePath))
+	//	{
+	//		string dataAsJson = File.ReadAllText(filePath);
 
-			newArmy = JsonUtility.FromJson<ArmySave>(dataAsJson);
-		}
-		else
-		{
-			Debug.LogError("Cannot load army: " + filePath);
-			return;
-		}
+	//		newArmy = JsonUtility.FromJson<ArmySave>(dataAsJson);
+	//	}
+	//	else
+	//	{
+	//		Debug.LogError("Cannot load army: " + filePath);
+	//		return;
+	//	}
 
-		string[,] armyNames = new string[armyDesigner.tileUnits.GetLength(0), armyDesigner.tileUnits.GetLength(1)];
-		for (int i = 0; i < armyDesigner.tileUnits.GetLength(0); i++)
-		{
-			for (int j = 0; j < armyDesigner.tileUnits.GetLength(1); j++)
-			{
-				armyNames[i, j] = newArmy.unitNames[0];
-				newArmy.unitNames.RemoveAt(0);
-			}
-		}
-		armyDesigner.LoadArmy(armyNames);
-		Debug.Log("Army loaded");
-	}
+	//	string[,] armyNames = new string[armyDesigner.tileUnits.GetLength(0), armyDesigner.tileUnits.GetLength(1)];
+	//	for (int i = 0; i < armyDesigner.tileUnits.GetLength(0); i++)
+	//	{
+	//		for (int j = 0; j < armyDesigner.tileUnits.GetLength(1); j++)
+	//		{
+	//			armyNames[i, j] = newArmy.unitNames[0];
+	//			newArmy.unitNames.RemoveAt(0);
+	//		}
+	//	}
+	//	armyDesigner.LoadArmy(armyNames);
+	//	Debug.Log("Army loaded");
+	//}
 
 	public UnitBlueprint[] GetUnitData()
 	{
