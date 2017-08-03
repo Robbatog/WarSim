@@ -27,50 +27,50 @@ public class ArmyDesigner : MonoBehaviour {
 	Dictionary<string, ArmySave> storedArmies;
 	Dictionary<string, GameObject> storedArmyButtons;
 
-	private void Start()
-	{
-		// Fetch unit database
-		unitBlueprints = GameObject.Find("DataController").GetComponent<DataController>().GetUnitData();
+	//private void Start()
+	//{
+	//	// Fetch unit database
+	//	unitBlueprints = GameObject.Find("DataController").GetComponent<DataController>().GetUnitData();
 
-		// Fetch GUI elements
-		armyDesignerPanel = GameObject.Find("ArmyDesignerPanel");
-		armyTileMap = armyDesignerPanel.transform.Find("ArmyTileMap").gameObject;
-		armyAddUnitList = armyDesignerPanel.transform
-			.Find("AddUnitScrollView")
-			.Find("Viewport")
-			.Find("AddUnitList").gameObject;
+	//	// Fetch GUI elements
+	//	armyDesignerPanel = GameObject.Find("ArmyDesignerPanel");
+	//	armyTileMap = armyDesignerPanel.transform.Find("ArmyTileMap").gameObject;
+	//	armyAddUnitList = armyDesignerPanel.transform
+	//		.Find("AddUnitScrollView")
+	//		.Find("Viewport")
+	//		.Find("AddUnitList").gameObject;
 
-		// Setup ArmyTileMap
-		columnAmount = 3;
-		rowAmount = 5;
-		tileUnits = new Unit[rowAmount, columnAmount];
-		tiles = new GameObject[rowAmount, columnAmount];
-		storedArmies = new Dictionary<string, ArmySave>();
-		storedArmyButtons = new Dictionary<string, GameObject>();
+	//	// Setup ArmyTileMap
+	//	columnAmount = 3;
+	//	rowAmount = 5;
+	//	tileUnits = new Unit[rowAmount, columnAmount];
+	//	tiles = new GameObject[rowAmount, columnAmount];
+	//	storedArmies = new Dictionary<string, ArmySave>();
+	//	storedArmyButtons = new Dictionary<string, GameObject>();
 
-		for (int row = 0; row < rowAmount; row++)
-		{
-			for (int col = 0; col < columnAmount; col++)
-			{
-				tiles[row, col] = Instantiate(armySlot);
-				tiles[row, col].GetComponent<ArmySlot>().setRowCol(row, col);
-				tiles[row, col].transform.SetParent(armyTileMap.transform, false);
-			}
-		}
+	//	for (int row = 0; row < rowAmount; row++)
+	//	{
+	//		for (int col = 0; col < columnAmount; col++)
+	//		{
+	//			tiles[row, col] = Instantiate(armySlot);
+	//			tiles[row, col].GetComponent<ArmySlot>().setRowCol(row, col);
+	//			tiles[row, col].transform.SetParent(armyTileMap.transform, false);
+	//		}
+	//	}
 
-		// Setup AddUnitList
-		addListTileUnits = new Unit[unitBlueprints.Length];
-		addListTiles = new GameObject[unitBlueprints.Length];
+	//	// Setup AddUnitList
+	//	addListTileUnits = new Unit[unitBlueprints.Length];
+	//	addListTiles = new GameObject[unitBlueprints.Length];
 
-		for (int row = 0; row < unitBlueprints.Length; row++)
-		{
-			addListTiles[row] = Instantiate(addUnitSlot);
-			addListTiles[row].GetComponent<AddUnitSlot>().SetRow(row);
-			addListTiles[row].transform.SetParent(armyAddUnitList.transform, false);
+	//	for (int row = 0; row < unitBlueprints.Length; row++)
+	//	{
+	//		addListTiles[row] = Instantiate(addUnitSlot);
+	//		addListTiles[row].GetComponent<AddUnitSlot>().SetRow(row);
+	//		addListTiles[row].transform.SetParent(armyAddUnitList.transform, false);
 
-			AddUnitToAddList(row, row);
-		}
-	}
+	//		AddUnitToAddList(row, row);
+	//	}
+	//}
 
 	public void AddUnit(int id, int row, int col)
 	{

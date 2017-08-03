@@ -5,12 +5,14 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class ArmySlot : MonoBehaviour, IUnitSlot, IDropHandler {
-	private ArmyDesigner armyDesigner;
+
+	// reference to grandparent
+	public ArmyDesignerPanel armyDesignerPanel;
 
 	public int TileRow { get; private set; }
 	public int TileColumn { get; private set; }
 
-	public void setRowCol(int row, int col)
+	public void SetRowCol(int row, int col)
 	{
 		TileRow = row;
 		TileColumn = col;
@@ -18,7 +20,7 @@ public class ArmySlot : MonoBehaviour, IUnitSlot, IDropHandler {
 
 	private void Start()
 	{
-		armyDesigner = GameObject.Find("ArmyDesigner").GetComponent<ArmyDesigner>();
+		
 	}
 
 	public void OccupySlot(DraggableUnit unit)
@@ -27,11 +29,11 @@ public class ArmySlot : MonoBehaviour, IUnitSlot, IDropHandler {
 		{
 			unit.transform.SetParent(this.transform);
 			unit.transform.position = this.transform.position;
-			armyDesigner.tileUnits[TileRow, TileColumn] = unit.unit;
+			armyDesignerPanel.tileUnits[TileRow, TileColumn] = unit.unit;
 		}
 		else
 		{
-			armyDesigner.tileUnits[TileRow, TileColumn] = null;
+			armyDesignerPanel.tileUnits[TileRow, TileColumn] = null;
 		}
 	}
 

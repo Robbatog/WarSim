@@ -5,7 +5,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class AddUnitSlot : MonoBehaviour, IUnitSlot, IDropHandler {
-	private ArmyDesigner armyDesigner;
+
+	// reference to grandparent
+	public ArmyDesignerPanel armyDesignerPanel;
 
 	public int TileRow { get; private set; }
 
@@ -16,7 +18,7 @@ public class AddUnitSlot : MonoBehaviour, IUnitSlot, IDropHandler {
 
 	private void Start()
 	{
-		armyDesigner = GameObject.Find("ArmyDesigner").GetComponent<ArmyDesigner>();
+		
 	}
 
 	public void OccupySlot(DraggableUnit unit)
@@ -42,7 +44,7 @@ public class AddUnitSlot : MonoBehaviour, IUnitSlot, IDropHandler {
 	public void BeginUnitDrag(DraggableUnit unit)
 	{
 		// When a unit leaves an AddUnitSlot, we want to immediately create a new one to replace it
-		armyDesigner.AddUnitToAddList(TileRow, TileRow);
+		armyDesignerPanel.AddUnitToAddList(TileRow, TileRow);
 	}
 
 	public void OnDrop(PointerEventData eventData)

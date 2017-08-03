@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 224097553553181138}
   - component: {fileID: 222207204623263824}
   - component: {fileID: 114591869621898468}
+  - component: {fileID: 114384896977929306}
   m_Layer: 5
   m_Name: ArmyDesignerPanel
   m_TagString: Untagged
@@ -861,6 +862,24 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
+--- !u!114 &114384896977929306
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1049543646515702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c08c24b73e7c3449fe4abe1f7aa198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  armySlot: {fileID: 1668431471716606, guid: 996b95a255af780478a41a84db137703, type: 2}
+  addUnitSlot: {fileID: 1021263122624688, guid: e8e58bef86d250341bb409ea38d0ea4f,
+    type: 2}
+  armyUnit: {fileID: 1153848791603064, guid: edaceb1da729cbb409b08de9e08ffc09, type: 2}
+  storedArmyButton: {fileID: 1302507975096748, guid: cbc2ae7cf83c5b340a1b3157f6448041,
+    type: 2}
+  addListTiles: []
 --- !u!114 &114409813213273650
 MonoBehaviour:
   m_ObjectHideFlags: 1

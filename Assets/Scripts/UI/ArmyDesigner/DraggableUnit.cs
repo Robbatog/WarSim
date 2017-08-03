@@ -5,24 +5,18 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class DraggableUnit : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {
+
 	public Unit unit;
-	//public int TileRow { get; private set; }
-	//public int TileColumn { get; private set; }
 
-	//public void setRowCol(int row, int col)
-	//{
-	//	TileRow = row;
-	//	TileColumn = col;
-	//}
-
-	GameObject armyDesignerPanel;
+	// reference to grandparent
+	public GameObject armyDesignerPanel;
 
 	public IUnitSlot parentSlotBeforeDrop = null;
 	public IUnitSlot parentSlotAfterDrop = null;
 
 	private void Start()
 	{
-		armyDesignerPanel = GameObject.Find("ArmyDesignerPanel");
+		
 	}
 
 	public void OnBeginDrag(PointerEventData eventData)
