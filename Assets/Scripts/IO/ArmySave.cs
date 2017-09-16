@@ -7,6 +7,7 @@ public class ArmySave
 {
 	public string armyName;
 	public List<string> unitNames;
+	public byte[] spriteBytesPNG;
 
 	public ArmySave()
 	{

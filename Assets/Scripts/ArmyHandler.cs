@@ -34,14 +34,25 @@ public class ArmyHandler : MonoBehaviour {
 		return availableUnitBlueprints;
 	}
 
-	public void AddArmy(ArmySave newArmy)
+	public ArmySave GetArmy(string armyName)
+	{
+		ArmySave army = null;
+		if (!storedArmies.TryGetValue(armyName, out army))
+		{
+			Debug.Log("GetArmy: Could not find army with name \"" + armyName + "\"");
+		}
+		return army;
+	}
+
+	public bool AddArmy(ArmySave newArmy)
 	{
 		storedArmies.Add(newArmy.armyName, newArmy);
 
 		Debug.Log("Army \"" + newArmy.armyName + "\" saved");
+		return true;
 	}
 
-	public void DeleteArmy(string armyName)
+	public bool DeleteArmy(string armyName)
 	{
 		ArmySave army = null;
 		if (!storedArmies.TryGetValue(armyName, out army))
@@ -52,5 +63,12 @@ public class ArmyHandler : MonoBehaviour {
 		storedArmies.Remove(armyName);
 
 		Debug.Log("Army \"" + armyName + "\" deleted");
+		return true;
+	}
+
+	public bool ExistsArmy(string armyName)
+	{
+		ArmySave army = null;
+		return storedArmies.TryGetValue(armyName, out army);
 	}
 }

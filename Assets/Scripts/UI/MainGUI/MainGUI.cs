@@ -38,7 +38,7 @@ public class MainGUI : MonoBehaviour {
 		ArmyHandler ah = GameObject.Find("Player").GetComponent<ArmyHandler>();
 
 		mArmyDesignPanel = Instantiate(prefabArmyDesignerPanel, this.transform);
-		mArmyDesignPanel.GetComponent<ArmyDesignerPanel>().Init(ah.AddArmy, ah.DeleteArmy, ah.GetAvailableUnits);
+		mArmyDesignPanel.GetComponent<ArmyDesignerPanel>().Init(ah.GetArmy, ah.AddArmy, ah.ExistsArmy, ah.DeleteArmy, ah.GetAvailableUnits);
 	}
 
 	public void CloseArmyDesigner()
