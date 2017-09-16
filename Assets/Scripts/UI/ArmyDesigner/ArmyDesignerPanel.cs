@@ -259,12 +259,39 @@ public class ArmyDesignerPanel : MonoBehaviour {
 	{
 		yield return new WaitForEndOfFrame();
 		InputField nameField = armyNameField.GetComponent<InputField>();
+
+		//army without name not allowed
 		if (nameField == null || nameField.text == "" || existsArmyCB(nameField.text))
 		{
 			yield break;
 		}
 
-		// make army icon
+		//make army data
+		List<string> unitNames = new List<string>();
+		bool hasUnits = false;
+		for (int i = 0; i < tileUnits.GetLength(0); i++)
+		{
+			for (int j = 0; j < tileUnits.GetLength(1); j++)
+			{
+				if (tileUnits[i, j] != null)
+				{
+					unitNames.Add(tileUnits[i, j].name);
+					hasUnits = true;
+				}
+				else
+				{
+					unitNames.Add("");
+				}
+			}
+		}
+
+		//empty army not allowed
+		if (!hasUnits)
+		{
+			yield break;
+		}
+
+		//make army icon
 		var armyTileRect = armyTileMap.GetComponent<RectTransform>();
 		Vector3[] corners = new Vector3[4];
 		armyTileRect.GetWorldCorners(corners);
@@ -279,31 +306,18 @@ public class ArmyDesignerPanel : MonoBehaviour {
 		tex.ReadPixels(rect, 0, 0);
 		tex.Apply();
 
-		//store army data
+		//make ArmySave
 		ArmySave newArmy = new ArmySave()
 		{
 			armyName = nameField.text,
+			unitNames = unitNames,
 			spriteBytesPNG = tex.EncodeToPNG()
 		};
-		for (int i = 0; i < tileUnits.GetLength(0); i++)
-		{
-			for (int j = 0; j < tileUnits.GetLength(1); j++)
-			{
-				if (tileUnits[i, j] != null)
-				{
-					newArmy.unitNames.Add(tileUnits[i, j].name);
-				}
-				else
-				{
-					newArmy.unitNames.Add("");
-				}
-			}
-		}
 
-		//make a button
+		//make a button so the army can be loaded and deleted
 		MakeArmyButton(newArmy);
 
-		//return callback
+		//return the ArmySave by callback
 		addArmyCB(newArmy);
 	}
 
