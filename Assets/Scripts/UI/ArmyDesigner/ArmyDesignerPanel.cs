@@ -47,13 +47,13 @@ public class ArmyDesignerPanel : MonoBehaviour {
 		loadButton.GetComponent<Button>().onClick.RemoveAllListeners();
 	}
 
-	public void Init(Func<string, ArmySave> getArmy, Func<ArmySave, bool> addArmy, Func<string, bool> existsArmy, Func<string, bool> deleteArmy, Func<UnitBlueprint[]> getAvailableUnits)
+	public void Init(Dictionary<string, ArmySave> currentArmies, Func<string, ArmySave> getArmyCB, Func<ArmySave, bool> addArmyCB, Func<string, bool> existsArmyCB, Func<string, bool> deleteArmyCB, Func<UnitBlueprint[]> getAvailableUnitsCB)
 	{
-		this.getArmyCB = getArmy;
-		this.addArmyCB = addArmy;
-		this.existsArmyCB = existsArmy;
-		this.deleteArmyCB = deleteArmy;
-		this.getAvailableUnitsCB = getAvailableUnits;
+		this.getArmyCB = getArmyCB;
+		this.addArmyCB = addArmyCB;
+		this.existsArmyCB = existsArmyCB;
+		this.deleteArmyCB = deleteArmyCB;
+		this.getAvailableUnitsCB = getAvailableUnitsCB;
 
 		// Fetch child GUI elements
 		armyTileMap = this.transform.Find("ArmyTileMap").gameObject;
@@ -94,7 +94,7 @@ public class ArmyDesignerPanel : MonoBehaviour {
 		}
 
 		// Setup AddUnitList
-		unitBlueprints = getAvailableUnits();
+		unitBlueprints = getAvailableUnitsCB();
 		addListTileUnits = new Unit[unitBlueprints.Length];
 		addListTiles = new GameObject[unitBlueprints.Length];
 
@@ -107,6 +107,12 @@ public class ArmyDesignerPanel : MonoBehaviour {
 			slot.armyDesignerPanel = this;
 
 			AddUnitToAddList(row, row);
+		}
+
+		// Make buttons for loading already existing armies
+		foreach(var armyKV in currentArmies)
+		{
+			MakeArmyButton(armyKV.Value);
 		}
 	}
 

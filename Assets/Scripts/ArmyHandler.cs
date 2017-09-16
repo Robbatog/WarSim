@@ -44,6 +44,11 @@ public class ArmyHandler : MonoBehaviour {
 		return army;
 	}
 
+	public Dictionary<string, ArmySave> GetArmies()
+	{
+		return storedArmies;
+	}
+
 	public bool AddArmy(ArmySave newArmy)
 	{
 		storedArmies.Add(newArmy.armyName, newArmy);
