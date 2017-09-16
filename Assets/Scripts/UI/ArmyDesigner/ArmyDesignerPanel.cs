@@ -94,7 +94,7 @@ public class ArmyDesignerPanel : MonoBehaviour {
 		}
 
 		// Setup AddUnitList
-		unitBlueprints = getAvailableUnitsCB();
+		unitBlueprints = this.getAvailableUnitsCB();
 		addListTileUnits = new Unit[unitBlueprints.Length];
 		addListTiles = new GameObject[unitBlueprints.Length];
 

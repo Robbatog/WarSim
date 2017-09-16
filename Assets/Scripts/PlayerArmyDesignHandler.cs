@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// Holds the designed armies for a player, and the available units
 /// </summary>
-public class ArmyHandler : MonoBehaviour {
+public class PlayerArmyDesignHandler : MonoBehaviour {
 
 	// units available to use in armies
 	UnitBlueprint[] availableUnitBlueprints;
