@@ -39,7 +39,7 @@ public class PlayerArmyDesignHandler : MonoBehaviour {
 		ArmySave army = null;
 		if (!storedArmies.TryGetValue(armyName, out army))
 		{
-			Debug.Log("GetArmy: Could not find army with name \"" + armyName + "\"");
+			Debug.LogError("GetArmy: Could not find army with name \"" + armyName + "\"");
 		}
 		return army;
 	}
@@ -53,7 +53,6 @@ public class PlayerArmyDesignHandler : MonoBehaviour {
 	{
 		storedArmies.Add(newArmy.armyName, newArmy);
 
-		Debug.Log("Army \"" + newArmy.armyName + "\" saved");
 		return true;
 	}
 
@@ -62,12 +61,11 @@ public class PlayerArmyDesignHandler : MonoBehaviour {
 		ArmySave army = null;
 		if (!storedArmies.TryGetValue(armyName, out army))
 		{
-			Debug.Log("DeleteArmy: Could not find army with name \"" + armyName + "\"");
+			Debug.LogError("DeleteArmy: Could not find army with name \"" + armyName + "\"");
 		}
 
 		storedArmies.Remove(armyName);
 
-		Debug.Log("Army \"" + armyName + "\" deleted");
 		return true;
 	}
 
