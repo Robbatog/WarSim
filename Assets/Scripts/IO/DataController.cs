@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System;
 using UnityEngine.UI;
 
 public class DataController : MonoBehaviour {
 
 	private UnitBlueprint[] unitBlueprints;
+	private Dictionary<string, UnitBlueprint> unitBlueprintMap;
 	private string gameDataFileName = "data.json";
 
 	// Use this for initialization
@@ -26,6 +28,11 @@ public class DataController : MonoBehaviour {
 
 			GameData loadedData = JsonUtility.FromJson<GameData>(dataAsJson);
 			unitBlueprints = loadedData.GetUnitData();
+			unitBlueprintMap = new Dictionary<string, UnitBlueprint>();
+			foreach (var unit in unitBlueprints)
+			{
+				unitBlueprintMap.Add(unit.name, unit);
+			}
 		}
 		else
 		{
@@ -36,5 +43,10 @@ public class DataController : MonoBehaviour {
 	public UnitBlueprint[] GetUnitData()
 	{
 		return unitBlueprints;
+	}
+
+	public UnitBlueprint GetUnitData(string unitName)
+	{
+		return unitBlueprintMap[unitName];
 	}
 }
