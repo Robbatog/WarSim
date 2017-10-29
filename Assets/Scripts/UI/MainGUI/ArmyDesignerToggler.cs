@@ -24,10 +24,10 @@ public class ArmyDesignerToggler : MonoBehaviour {
 
 	private void OpenArmyDesigner()
 	{
-		PlayerArmyDesignHandler ah = GameObject.Find("Player").GetComponent<PlayerArmyDesignHandler>();
+		PlayerArmyDesignHandler adh = GameObject.Find("Player").GetComponent<PlayerArmyDesignHandler>();
 
 		mArmyDesignPanel = Instantiate(prefabArmyDesignerPanel, this.transform);
-		var cb = new ArmyDesignerPanel.ArmyDesignerPanelCallbackInterface(ah.GetArmies(), ah.GetArmy, ah.AddArmy, ah.ExistsArmy, ah.DeleteArmy, ah.GetAvailableUnits);
+		var cb = new ArmyDesignerPanel.ArmyDesignerPanelCallbackInterface(adh.GetArmies(), adh.GetArmy, adh.AddArmy, adh.ExistsArmy, adh.DeleteArmy, adh.GetAvailableUnits);
 		mArmyDesignPanel.GetComponent<ArmyDesignerPanel>().Init(cb);
 	}
 

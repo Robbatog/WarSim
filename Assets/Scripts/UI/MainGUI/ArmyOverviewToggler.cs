@@ -24,10 +24,11 @@ public class ArmyOverviewToggler : MonoBehaviour {
 
 	private void OpenArmyOverview()
 	{
+		PlayerArmyDesignHandler adh = GameObject.Find("Player").GetComponent<PlayerArmyDesignHandler>();
 		PlayerArmyHandler ah = GameObject.Find("Player").GetComponent<PlayerArmyHandler>();
 
 		mArmyOverviewPanel = Instantiate(prefabArmyOverviewPanel, this.transform);
-		var cb = new ArmyOverviewPanel.ArmyObverviewPanelCallbackInterface(new List<string>());
+		var cb = new ArmyOverviewPanel.ArmyObverviewPanelCallbackInterface(adh.GetArmies());
 		mArmyOverviewPanel.GetComponent<ArmyOverviewPanel>().Init(cb);
 	}
 

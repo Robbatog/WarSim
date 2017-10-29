@@ -43,11 +43,7 @@ public class ArmyDesignerPanel : MonoBehaviour {
 	GameObject saveButton;
 
 	// callbacks to outside world that this ArmyDesignerPanel runs when buttons are pressed
-	private Func<string, ArmySave> getArmyCB;
-	private Func<ArmySave, bool> addArmyCB;
-	private Func<string, bool> existsArmyCB;
-	private Func<string, bool> deleteArmyCB;
-	private Func<UnitBlueprint[]> getAvailableUnitsCB;
+	private ArmyDesignerPanelCallbackInterface cb;
 
 	// prefabs to instantiate when adding a unit to a tile
 	public GameObject armySlot;
@@ -72,13 +68,9 @@ public class ArmyDesignerPanel : MonoBehaviour {
 		saveButton.GetComponent<Button>().onClick.RemoveAllListeners();
 	}
 
-	public void Init(ArmyDesignerPanelCallbackInterface cb)
+	public void Init(ArmyDesignerPanelCallbackInterface callbacks)
 	{
-		this.getArmyCB = cb.getArmyCB;
-		this.addArmyCB = cb.addArmyCB;
-		this.existsArmyCB = cb.existsArmyCB;
-		this.deleteArmyCB = cb.deleteArmyCB;
-		this.getAvailableUnitsCB = cb.getAvailableUnitsCB;
+		cb = callbacks;
 
 		// Fetch child GUI elements
 		armyTileMap = this.transform.Find("ArmyTileMap").gameObject;
@@ -117,7 +109,7 @@ public class ArmyDesignerPanel : MonoBehaviour {
 		}
 
 		// Setup AddUnitList
-		unitBlueprints = this.getAvailableUnitsCB();
+		unitBlueprints = cb.getAvailableUnitsCB();
 		addListTileUnits = new Unit[unitBlueprints.Length];
 		addListTiles = new GameObject[unitBlueprints.Length];
 
@@ -239,13 +231,13 @@ public class ArmyDesignerPanel : MonoBehaviour {
 
 	public void LoadArmy(string armyName)
 	{
-		if (!existsArmyCB(armyName))
+		if (!cb.existsArmyCB(armyName))
 		{
-			Debug.Log("LoadArmy: Could not find army with name \"" + armyName + "\"");
+			Debug.LogError("LoadArmy: Could not find army with name \"" + armyName + "\"");
 		}
 
 		string[,] unitNames = new string[tileUnits.GetLength(0), tileUnits.GetLength(1)];
-		var e = getArmyCB(armyName).unitNames.GetEnumerator();
+		var e = cb.getArmyCB(armyName).unitNames.GetEnumerator();
 		for (int i = 0; i < tileUnits.GetLength(0); i++)
 		{
 			for (int j = 0; j < tileUnits.GetLength(1); j++)
@@ -255,27 +247,24 @@ public class ArmyDesignerPanel : MonoBehaviour {
 			}
 		}
 		LoadArmy(unitNames);
-		Debug.Log("Army loaded");
 	}
 
 	public void DeleteArmy(string armyName)
 	{
-		if (!existsArmyCB(armyName))
+		if (!cb.existsArmyCB(armyName))
 		{
-			Debug.Log("DeleteArmy: Could not find army with name \"" + armyName + "\"");
+			Debug.LogError("DeleteArmy: Could not find army with name \"" + armyName + "\"");
 		}
 
 		GameObject armyButton = null;
 		if (!storedArmyButtons.TryGetValue(armyName, out armyButton))
 		{
-			Debug.Log("DeleteArmy: Could not find army with name \"" + armyName + "\"");
+			Debug.LogError("DeleteArmy: Could not find army with name \"" + armyName + "\"");
 		}
 
-		deleteArmyCB(armyName);
+		cb.deleteArmyCB(armyName);
 		storedArmyButtons.Remove(armyName);
 		GameObject.Destroy(armyButton);
-
-		Debug.Log("Army deleted");
 	}
 
 	public IEnumerator SaveArmy()
@@ -284,7 +273,7 @@ public class ArmyDesignerPanel : MonoBehaviour {
 		InputField nameField = armyNameField.GetComponent<InputField>();
 
 		//army without name not allowed
-		if (nameField == null || nameField.text == "" || existsArmyCB(nameField.text))
+		if (nameField == null || nameField.text == "" || cb.existsArmyCB(nameField.text))
 		{
 			yield break;
 		}
@@ -341,7 +330,7 @@ public class ArmyDesignerPanel : MonoBehaviour {
 		MakeArmyButton(newArmy);
 
 		//return the ArmySave by callback
-		addArmyCB(newArmy);
+		cb.addArmyCB(newArmy);
 	}
 
 	public void MakeArmyButton(ArmySave army)
