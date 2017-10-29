@@ -15,7 +15,7 @@ public class ArmyDesignerPanel : MonoBehaviour {
 			Func<string, bool> existsArmyCB,
 			Func<string, bool> deleteArmyCB,
 			Func<UnitBlueprint[]> getAvailableUnitsCB
-			)
+		)
 		{
 			this.currentArmies = currentArmies;
 			this.getArmyCB = getArmyCB;
@@ -41,7 +41,6 @@ public class ArmyDesignerPanel : MonoBehaviour {
 	GameObject closeButton;
 	GameObject clearButton;
 	GameObject saveButton;
-	GameObject loadButton;
 
 	// callbacks to outside world that this ArmyDesignerPanel runs when buttons are pressed
 	private Func<string, ArmySave> getArmyCB;
@@ -71,7 +70,6 @@ public class ArmyDesignerPanel : MonoBehaviour {
 		closeButton.GetComponent<Button>().onClick.RemoveAllListeners();
 		clearButton.GetComponent<Button>().onClick.RemoveAllListeners();
 		saveButton.GetComponent<Button>().onClick.RemoveAllListeners();
-		loadButton.GetComponent<Button>().onClick.RemoveAllListeners();
 	}
 
 	public void Init(ArmyDesignerPanelCallbackInterface cb)
@@ -93,13 +91,11 @@ public class ArmyDesignerPanel : MonoBehaviour {
 		closeButton = this.transform.Find("CloseButton").gameObject;
 		clearButton = this.transform.Find("ClearButton").gameObject;
 		saveButton = this.transform.Find("SaveButton").gameObject;
-		loadButton = this.transform.Find("LoadButton").gameObject;
 
 		// Bind button functions
 		closeButton.GetComponent<Button>().onClick.AddListener(() => { Destroy(this.gameObject); });
 		clearButton.GetComponent<Button>().onClick.AddListener(() => { ClearArmy(); });
 		saveButton.GetComponent<Button>().onClick.AddListener(() => { StartCoroutine(SaveArmy()); });
-		loadButton.GetComponent<Button>().onClick.AddListener(() => { /*TODO: remove this superfluous button*/ });
 
 		// Setup ArmyTileMap
 		columnAmount = 3;

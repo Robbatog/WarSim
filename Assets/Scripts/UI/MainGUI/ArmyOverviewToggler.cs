@@ -27,7 +27,8 @@ public class ArmyOverviewToggler : MonoBehaviour {
 		PlayerArmyHandler ah = GameObject.Find("Player").GetComponent<PlayerArmyHandler>();
 
 		mArmyOverviewPanel = Instantiate(prefabArmyOverviewPanel, this.transform);
-		//mArmyOverviewPanel.GetComponent<ArmyDesignerPanel>().Init(ah.GetArmies(), ah.GetArmy, ah.AddArmy, ah.ExistsArmy, ah.DeleteArmy, ah.GetAvailableUnits);
+		var cb = new ArmyOverviewPanel.ArmyObverviewPanelCallbackInterface(new List<string>());
+		mArmyOverviewPanel.GetComponent<ArmyOverviewPanel>().Init(cb);
 	}
 
 	public void CloseArmyOverview()
