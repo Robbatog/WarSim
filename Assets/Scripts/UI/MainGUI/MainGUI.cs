@@ -4,45 +4,31 @@ using UnityEngine;
 
 public class MainGUI : MonoBehaviour {
 
-	// prefabs
-	public GameObject prefabArmyDesignerPanel;
+	//members
+	private ArmyDesignerToggler mArmyDesignerToggler;
+	private ArmyOverviewToggler mArmyOverviewToggler;
 
-	// members
-	GameObject mArmyDesignPanel;
-
-	// Use this for initialization
-	void Start ()
+	void Start()
 	{
-		
+		mArmyDesignerToggler = GetComponent<ArmyDesignerToggler>();
+		mArmyOverviewToggler = GetComponent<ArmyOverviewToggler>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	public void CloseAll()
+	{
+		mArmyDesignerToggler.CloseArmyDesigner();
+		mArmyOverviewToggler.CloseArmyOverview();
 	}
 
 	public void ToggleArmyDesigner()
 	{
-		if(mArmyDesignPanel == null)
-		{
-			OpenArmyDesigner();
-		}
-		else
-		{
-			CloseArmyDesigner();
-		}
+		CloseAll();
+		mArmyDesignerToggler.ToggleArmyDesigner();
 	}
 
-	public void OpenArmyDesigner()
+	public void ToggleArmyOverview()
 	{
-		PlayerArmyDesignHandler ah = GameObject.Find("Player").GetComponent<PlayerArmyDesignHandler>();
-
-		mArmyDesignPanel = Instantiate(prefabArmyDesignerPanel, this.transform);
-		mArmyDesignPanel.GetComponent<ArmyDesignerPanel>().Init(ah.GetArmies(), ah.GetArmy, ah.AddArmy, ah.ExistsArmy, ah.DeleteArmy, ah.GetAvailableUnits);
-	}
-
-	public void CloseArmyDesigner()
-	{
-		Destroy(mArmyDesignPanel);
+		CloseAll();
+		mArmyOverviewToggler.ToggleArmyOverview();
 	}
 }
