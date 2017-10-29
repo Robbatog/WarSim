@@ -11,6 +11,6 @@ public class ArmySave
 
 	public ArmySave()
 	{
-		unitNames = new string[GS.armyRowAmount, GS.armyColumnAmount];
+		unitNames = new string[GS.ArmyRowAmount, GS.ArmyColumnAmount];
 	}
 }

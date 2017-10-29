@@ -88,13 +88,13 @@ public class ArmyDesignerPanel : MonoBehaviour {
 		saveButton.GetComponent<Button>().onClick.AddListener(() => { StartCoroutine(SaveArmy()); });
 
 		// Setup ArmyTileMap
-		tileUnits = new Unit[GS.armyRowAmount, GS.armyColumnAmount];
-		tiles = new GameObject[GS.armyRowAmount, GS.armyColumnAmount];
+		tileUnits = new Unit[GS.ArmyRowAmount, GS.ArmyColumnAmount];
+		tiles = new GameObject[GS.ArmyRowAmount, GS.ArmyColumnAmount];
 		storedArmyButtons = new Dictionary<string, GameObject>();
 
-		for (int row = 0; row < GS.armyRowAmount; row++)
+		for (int row = 0; row < GS.ArmyRowAmount; row++)
 		{
-			for (int col = 0; col < GS.armyColumnAmount; col++)
+			for (int col = 0; col < GS.ArmyColumnAmount; col++)
 			{
 				tiles[row, col] = Instantiate(armySlot);
 				tiles[row, col].transform.SetParent(armyTileMap.transform, false);
@@ -170,9 +170,9 @@ public class ArmyDesignerPanel : MonoBehaviour {
 
 	public void ClearArmy()
 	{
-		for (int i = 0; i < GS.armyRowAmount; i++)
+		for (int i = 0; i < GS.ArmyRowAmount; i++)
 		{
-			for (int j = 0; j < GS.armyColumnAmount; j++)
+			for (int j = 0; j < GS.ArmyColumnAmount; j++)
 			{
 				RemoveUnit(i, j);
 			}
@@ -209,16 +209,16 @@ public class ArmyDesignerPanel : MonoBehaviour {
 			Debug.LogError("Cannot load army! Array is null");
 			return;
 		}
-		if (unitNames == null || rows != GS.armyRowAmount || columns != GS.armyColumnAmount)
+		if (unitNames == null || rows != GS.ArmyRowAmount || columns != GS.ArmyColumnAmount)
 		{
-			Debug.LogError("Cannot load army! Array dimension : [" + rows + "," + columns + "]. Expected: [" + GS.armyRowAmount + "," + GS.armyColumnAmount + "]");
+			Debug.LogError("Cannot load army! Array dimension : [" + rows + "," + columns + "]. Expected: [" + GS.ArmyRowAmount + "," + GS.ArmyColumnAmount + "]");
 			return;
 		}
 
 		ClearArmy();
-		for (int row = 0; row < GS.armyRowAmount; row++)
+		for (int row = 0; row < GS.ArmyRowAmount; row++)
 		{
-			for (int col = 0; col < GS.armyColumnAmount; col++)
+			for (int col = 0; col < GS.ArmyColumnAmount; col++)
 			{
 				AddUnit(UnitNameToId(unitNames[row, col]), row, col);
 			}
@@ -274,7 +274,7 @@ public class ArmyDesignerPanel : MonoBehaviour {
 		}
 
 		//make army data
-		string[,] unitNames = new string[GS.armyRowAmount, GS.armyColumnAmount];
+		string[,] unitNames = new string[GS.ArmyRowAmount, GS.ArmyColumnAmount];
 		bool hasUnits = false;
 		for (int i = 0; i < tileUnits.GetLength(0); i++)
 		{
