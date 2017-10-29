@@ -9,13 +9,16 @@ public class ArmyOverviewPanel : MonoBehaviour {
 	public struct ArmyObverviewPanelCallbackInterface
 	{
 		public ArmyObverviewPanelCallbackInterface(
-			Dictionary<string, ArmySave> availableArmyTypes
+			Dictionary<string, ArmySave> availableArmyTypes,
+			Func<int> getNextArmyID
 		)
 		{
 			this.availableArmyTypes = availableArmyTypes;
+			this.getNextArmyID = getNextArmyID;
 		}
 
 		public Dictionary<string, ArmySave> availableArmyTypes;
+		public Func<int> getNextArmyID;
 	}
 
 	// references to child objects
@@ -66,7 +69,7 @@ public class ArmyOverviewPanel : MonoBehaviour {
 
 	public void RecruitArmy(string armyTypeName)
 	{
-		string tmpArmyName = "temp army name";//TODO: get "next" name from army handler, e.g. "armyTypeName + nextArmyID()"
+		string tmpArmyName = armyTypeName + " " + cb.getNextArmyID();
 		Army army = new Army(tmpArmyName, availableArmyTypes[armyTypeName]);
 		if (army == null)
 		{
