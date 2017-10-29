@@ -6,11 +6,11 @@ using UnityEngine;
 public class ArmySave
 {
 	public string armyName;
-	public List<string> unitNames;
+	public string[,] unitNames;
 	public byte[] spriteBytesPNG;
 
 	public ArmySave()
 	{
-		unitNames = new List<string>();
+		unitNames = new string[GS.armyRowAmount, GS.armyColumnAmount];
 	}
 }

@@ -233,13 +233,12 @@ public class ArmyDesignerPanel : MonoBehaviour {
 		}
 
 		string[,] unitNames = new string[tileUnits.GetLength(0), tileUnits.GetLength(1)];
-		var e = cb.getArmyCB(armyName).unitNames.GetEnumerator();
+		var allNames = cb.getArmyCB(armyName).unitNames;
 		for (int i = 0; i < tileUnits.GetLength(0); i++)
 		{
 			for (int j = 0; j < tileUnits.GetLength(1); j++)
 			{
-				e.MoveNext();
-				unitNames[i, j] = e.Current;
+				unitNames[i, j] = allNames[i, j];
 			}
 		}
 		LoadArmy(unitNames);
@@ -275,7 +274,7 @@ public class ArmyDesignerPanel : MonoBehaviour {
 		}
 
 		//make army data
-		List<string> unitNames = new List<string>();
+		string[,] unitNames = new string[GS.armyRowAmount, GS.armyColumnAmount];
 		bool hasUnits = false;
 		for (int i = 0; i < tileUnits.GetLength(0); i++)
 		{
@@ -283,12 +282,12 @@ public class ArmyDesignerPanel : MonoBehaviour {
 			{
 				if (tileUnits[i, j] != null)
 				{
-					unitNames.Add(tileUnits[i, j].name);
+					unitNames[i,j] = tileUnits[i, j].name;
 					hasUnits = true;
 				}
 				else
 				{
-					unitNames.Add("");
+					unitNames[i, j] = "";
 				}
 			}
 		}
