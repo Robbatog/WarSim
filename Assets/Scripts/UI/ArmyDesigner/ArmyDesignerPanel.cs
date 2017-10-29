@@ -6,6 +6,33 @@ using UnityEngine.UI;
 
 public class ArmyDesignerPanel : MonoBehaviour {
 
+	public struct ArmyDesignerPanelCallbackInterface
+	{
+		public ArmyDesignerPanelCallbackInterface(
+			Dictionary<string, ArmySave> currentArmies,
+			Func<string, ArmySave> getArmyCB,
+			Func<ArmySave, bool> addArmyCB,
+			Func<string, bool> existsArmyCB,
+			Func<string, bool> deleteArmyCB,
+			Func<UnitBlueprint[]> getAvailableUnitsCB
+			)
+		{
+			this.currentArmies = currentArmies;
+			this.getArmyCB = getArmyCB;
+			this.addArmyCB = addArmyCB;
+			this.existsArmyCB = existsArmyCB;
+			this.deleteArmyCB = deleteArmyCB;
+			this.getAvailableUnitsCB = getAvailableUnitsCB;
+		}
+
+		public Dictionary<string, ArmySave> currentArmies;
+		public Func<string, ArmySave> getArmyCB;
+		public Func<ArmySave, bool> addArmyCB;
+		public Func<string, bool> existsArmyCB;
+		public Func<string, bool> deleteArmyCB;
+		public Func<UnitBlueprint[]> getAvailableUnitsCB;
+	}
+
 	// references to child objects
 	GameObject armyTileMap;
 	GameObject armyAddUnitList;
@@ -47,13 +74,13 @@ public class ArmyDesignerPanel : MonoBehaviour {
 		loadButton.GetComponent<Button>().onClick.RemoveAllListeners();
 	}
 
-	public void Init(Dictionary<string, ArmySave> currentArmies, Func<string, ArmySave> getArmyCB, Func<ArmySave, bool> addArmyCB, Func<string, bool> existsArmyCB, Func<string, bool> deleteArmyCB, Func<UnitBlueprint[]> getAvailableUnitsCB)
+	public void Init(ArmyDesignerPanelCallbackInterface cb)
 	{
-		this.getArmyCB = getArmyCB;
-		this.addArmyCB = addArmyCB;
-		this.existsArmyCB = existsArmyCB;
-		this.deleteArmyCB = deleteArmyCB;
-		this.getAvailableUnitsCB = getAvailableUnitsCB;
+		this.getArmyCB = cb.getArmyCB;
+		this.addArmyCB = cb.addArmyCB;
+		this.existsArmyCB = cb.existsArmyCB;
+		this.deleteArmyCB = cb.deleteArmyCB;
+		this.getAvailableUnitsCB = cb.getAvailableUnitsCB;
 
 		// Fetch child GUI elements
 		armyTileMap = this.transform.Find("ArmyTileMap").gameObject;
@@ -110,7 +137,7 @@ public class ArmyDesignerPanel : MonoBehaviour {
 		}
 
 		// Make buttons for loading already existing armies
-		foreach(var armyKV in currentArmies)
+		foreach(var armyKV in cb.currentArmies)
 		{
 			MakeArmyButton(armyKV.Value);
 		}

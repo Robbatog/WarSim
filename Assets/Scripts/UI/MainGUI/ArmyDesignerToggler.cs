@@ -27,7 +27,8 @@ public class ArmyDesignerToggler : MonoBehaviour {
 		PlayerArmyDesignHandler ah = GameObject.Find("Player").GetComponent<PlayerArmyDesignHandler>();
 
 		mArmyDesignPanel = Instantiate(prefabArmyDesignerPanel, this.transform);
-		mArmyDesignPanel.GetComponent<ArmyDesignerPanel>().Init(ah.GetArmies(), ah.GetArmy, ah.AddArmy, ah.ExistsArmy, ah.DeleteArmy, ah.GetAvailableUnits);
+		var cb = new ArmyDesignerPanel.ArmyDesignerPanelCallbackInterface(ah.GetArmies(), ah.GetArmy, ah.AddArmy, ah.ExistsArmy, ah.DeleteArmy, ah.GetAvailableUnits);
+		mArmyDesignPanel.GetComponent<ArmyDesignerPanel>().Init(cb);
 	}
 
 	public void CloseArmyDesigner()
