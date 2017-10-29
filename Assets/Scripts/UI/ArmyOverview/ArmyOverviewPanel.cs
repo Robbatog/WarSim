@@ -59,6 +59,16 @@ public class ArmyOverviewPanel : MonoBehaviour {
 		}
 	}
 
+	public void RecruitArmy(string armyName)
+	{
+		Army army = new Army(availableArmyTypes[armyName]);
+		if (army == null)
+		{
+			Debug.LogError("RecruitArmy: Could not create army with name \"" + armyName + "\"");
+		}
+		Debug.Log("RecruitArmy: created army with name \"" + armyName + "\"");
+	}
+
 	public void MakeArmyRecruitButton(ArmySave army)
 	{
 		var recruitableArmyList = recruitArmyScrollView.transform.Find("Viewport").Find("RecruitableArmyList");
@@ -68,8 +78,8 @@ public class ArmyOverviewPanel : MonoBehaviour {
 
 		newButton.transform.Find("TextMsh").GetComponent<TMPro.TextMeshProUGUI>().text = army.armyName;
 
-		//string callbackString = army.armyName; // avoid capturing the wrong string (armyName) in lambda closure - add a local to capture instead
-		//newButton.GetComponent<Button>().onClick.AddListener(() => { LoadArmy(callbackString); });
+		string callbackString = army.armyName; // avoid capturing the wrong string (armyName) in lambda closure - add a local to capture instead
+		newButton.GetComponent<Button>().onClick.AddListener(() => { RecruitArmy(callbackString); });
 
 		// set sprite
 		var tex = new Texture2D(1, 1);

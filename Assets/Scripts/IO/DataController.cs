@@ -47,6 +47,10 @@ public class DataController : MonoBehaviour {
 
 	public UnitBlueprint GetUnitData(string unitName)
 	{
+		if(!unitBlueprintMap.ContainsKey(unitName))
+		{
+			Debug.LogError("GetUnitData: Cannot find unit with name\"" + unitName + "\"");
+		}
 		return unitBlueprintMap[unitName];
 	}
 }
